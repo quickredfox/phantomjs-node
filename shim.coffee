@@ -1,9 +1,9 @@
-
+webpage = core_require 'webpage'
 # Require gets overwritten by browserify, so we have to reimplement it from scratch - boo :(
-mkweb = new Function "exports", "window", phantom.loadModuleSource('webpage')
-webpage = {}
-mkweb.call {}, webpage, {}
-
+# mkweb = new Function "exports", "window", phantom.loadModuleSource('webpage')
+# webpage = {}
+# mkweb.call {}, webpage, {}
+# 
 proto = require 'dnode-protocol'
 
 [port] = phantom.args
@@ -56,6 +56,7 @@ pageWrap = (page) -> mkwrap page,
     cb = (->) unless cb?      
     cb page.evaluate.apply page, [fn].concat(args)
   render: (file, cb=->) -> page.render file; cb()
+  renderBase64: (fmt, cb=->) -> cb page.renderBase64 fmt
 
 _phantom = mkwrap phantom,
   ['exit'],
